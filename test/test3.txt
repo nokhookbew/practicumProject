@@ -1,0 +1,6 @@
+#include <studio>
+
+Int main(){
+Int a = 5;
+Print(”he|lo world”)
+
