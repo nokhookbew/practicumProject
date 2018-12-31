@@ -1,8 +1,12 @@
 {
   "user1" : {
-    "name" : "kitpavin",
+    "name" : "เซ็นนนนน",
     "nickname" : "zen",
     "id" : "1"
   },
-  "user2" : {"name" : "sirikan", "nickname" : "zom", "id" : 2 }
+  "user2" : {
+    "name" : "sirikan", 
+    "nickname" : "zom", 
+    "id" : 2 
+  }
 }

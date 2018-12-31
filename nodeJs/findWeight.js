@@ -1,5 +1,5 @@
 var fs =  require('fs') // fs = file system
-var readMe = fs.readFileSync('topChicken.txt','utf8');
+var readMe = fs.readFileSync('./picAndOcr/topChicken.txt','utf8');
 readMe = readMe.trim();
 var index = readMe.indexOf("ธิ");
 
