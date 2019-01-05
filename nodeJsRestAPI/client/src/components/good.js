@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './good.css';
 // import './customers.css';
 
 class Good extends Component {
