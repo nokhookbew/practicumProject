@@ -1,0 +1,1 @@
+commmand : npm run startService  // for run service
