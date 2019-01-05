@@ -48,7 +48,7 @@ function topNameReader(){
   })
   ocr.recognize('./namePicTop.jpg', config)
   .then(text => {
-    format.name = text;
+    format[0].name = text;
     console.log('name : ', format.name);
   })
   .catch(err => {
@@ -67,7 +67,7 @@ function topExpiredDateReader(){
   })
   ocr.recognize('./expiredDatePicTop.jpg', config)
   .then(text => {
-    format.ex = text
+    format[0].ex = text
     console.log('expired Date : ', format.ex);
   })
   .catch(err => {
@@ -86,7 +86,7 @@ function topNetWeightReader(){
   })
   ocr.recognize('./netWeightPicTop.jpg', config)
   .then(text => {
-    format.weight = text
+    format[0].weight = text
     console.log('net weight : ', text);
   })
   .catch(err => {
