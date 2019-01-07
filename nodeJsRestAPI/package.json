@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "kuyEarth": "nodemon serviceApp.js"
+    "startService": "nodemon serviceApp.js"
   },
   "author": "kitpavin",
   "license": "ISC",

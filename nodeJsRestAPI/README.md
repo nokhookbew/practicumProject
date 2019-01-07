@@ -1,5 +1,5 @@
 
-### `npm run kuyEarth`
+### `npm run startService`
 Runs the app in the development mode.
 Open http://localhost:8081 to view it in the browser.
 
@@ -8,7 +8,7 @@ Open http://localhost:8081 to view it in the browser.
 -- get format from cervice by open http://localhost:8081/getformat
 
 
-
+------------------------------------------------------------------------
 and open client by enter in folder client and use command
 ### `npm start`
 Runs the app in the development mode.

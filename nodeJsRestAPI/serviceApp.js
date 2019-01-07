@@ -1,7 +1,7 @@
 var express = require('express');
 var croper = require('jimp');
 var ocr = require('node-tesseract-ocr');
-var service = express();
+var app = express();
 var fs = require("fs");
 
 var user = {
@@ -23,7 +23,7 @@ var format = [
   {id: 1, name: '', ex: '', weight: ''}
 ];
 
-service.get('/topProcessFormat', (req, res) => {
+app.get('/topProcessFormat', (req, res) => {
   topNameReader();
   topExpiredDateReader();
   topNetWeightReader();
@@ -31,7 +31,7 @@ service.get('/topProcessFormat', (req, res) => {
 })
 
 
-service.get('/getformat', (req, res) => {
+app.get('/getformat', (req, res) => {
   console.log('format : ', format)
   res.json(format);
 });
@@ -95,7 +95,7 @@ function topNetWeightReader(){
 }
 
 // read data from json file
-service.get('/getUsers', function (req, res) {
+app.get('/getUsers', function (req, res) {
   fs.readFile( __dirname + "/" + "user.json", "utf8", function (err, data) {
     console.log(data);
     res.end(data);
@@ -103,7 +103,7 @@ service.get('/getUsers', function (req, res) {
 });
 
 // get user form ID in json file
-service.get('/getUsers/:id', function (req, res) {
+app.get('/getUsers/:id', function (req, res) {
   fs.readFile( __dirname + "/" + "user.json", "utf8", function (err, data){
     var users = JSON.parse(data);
     var user = users["user" + req.params.id]
@@ -113,7 +113,7 @@ service.get('/getUsers/:id', function (req, res) {
 });
 
 // post user 3
-service.post('/addUser', function (req, res) {
+app.post('/addUser', function (req, res) {
   fs.readFile( __dirname + "/" + "user.json", "utf8", function (err, data) {
     data = JSON.parse(data); //cast data to JSON object
     data["user3"] = user["user3"];
@@ -123,4 +123,8 @@ service.post('/addUser', function (req, res) {
 })
 
 const PORT = 8081
-service.listen(PORT, () => console.log(`Example service listening on port ${PORT} !`))
+var server = app.listen(PORT, function() {
+  console.log("Application run At port", PORT);
+});
+        
+
