@@ -1,9 +1,10 @@
 
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './cssFile/App.css';
 import Good from './components/good';
 import UploadPic from './components/uploadPic';
+import ChoiceBox from './components/choiceBox';
 
 class App extends Component {
   render() {
@@ -11,10 +12,12 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">React Express Starter</h1>
+          <h2 className="App-title">Food Labal Service </h2>
         </header>
-        <Good />
+        <ChoiceBox/>
         <UploadPic/>
+        <Good />
+        
       </div>
     );
   }

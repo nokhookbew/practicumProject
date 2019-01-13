@@ -6,7 +6,7 @@ jimp.read('./picAndOcr/smallPictureInternalOrganTesco.jpg', function(err, image)
   }
   else{
     // image.crop(300,170,200,60) // : วันหมดอายุ จากรูปเล็ก
-    image.crop(0,225,500,100) // : นำ้หนักสุทธิ จากรูปเล็ก
+    image.crop(0,210,480,100) // : นำ้หนักสุทธิ จากรูปเล็ก
     // image.crop(0,7,290,100) // : ชื่ออาหาร จากรูปเล็ก
     // image.crop(150,850,300,80) : ชื่ออาหารจากรูปใหญ่ (ไม่ได้ใช้)
    
