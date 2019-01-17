@@ -5,7 +5,8 @@ var app = express();
 var fs = require("fs");
 
 
-var upload = require('multer')
+var multer = require('multer')
+app.use(multer());
 
 var user = [{
     "user3" : {
