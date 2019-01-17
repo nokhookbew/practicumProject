@@ -16,7 +16,7 @@ class App extends Component {
         </header>
         <ChoiceBox/>
         <UploadPic/>
-        <Good />
+        {/* <Good /> */}
         
       </div>
     );

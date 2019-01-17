@@ -6,16 +6,14 @@ class UploadPic extends Component {
     }
     fileSelectedHandler = (event) => {
         this.setState({selectedFile: event.target.files[0]})
-        
     }
     fileUploadHandler = () => {
         console.log(this.state.selectedFile)
-
     }
   render() {
     return (
       <div>
-          <form action="" method="post">
+          <form action="/uploadPic" method="post">
             <input type="file" onChange={this.fileSelectedHandler}/>
             <button onClick={this.fileUploadHandler}> Upload </button>
           </form>

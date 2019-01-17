@@ -4,7 +4,22 @@
     margin-right: 100px;
 
 }
-button {
+/* button {
     padding: 10px;
     margin: 10px;
+} */
+
+.spinner {
+    text-align: center;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 9px;
+    border: 1px;
+}
+
+.selectionButton {
+    padding: 10px;
+    margin: 10px;
+    padding-right: 100px;
+    padding-left: 100px;
 }

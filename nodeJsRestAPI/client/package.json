@@ -6,7 +6,8 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.2",
-    "react-select": "^2.2.0"
+    "react-select": "^2.2.0",
+    "react-spinner-material": "^1.0.19"
   },
   "scripts": {
     "start": "react-scripts start",
