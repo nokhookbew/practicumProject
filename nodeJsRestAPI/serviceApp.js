@@ -3,18 +3,39 @@ var croper = require('jimp');
 var ocr = require('node-tesseract-ocr');
 var app = express();
 var fs = require("fs");
-
-
 var multer = require('multer')
-app.use(multer());
 
-var user = [{
-    "user3" : {
-      "name" : "asdfasdf",
-      "nickname" : "zoasdfm",
-      "id" : 3
-    }
-}]
+const path = require('path');
+const pic = 'uploadImage.jpg' 
+var formatTop = [ {id: 1, name: '', ex: '', weight: ''} ];
+var formatTessco = [ {id: 1, name: '', ex: '', weight: ''} ];
+
+// set storage engin
+const storage = multer.diskStorage({
+  destination: '',
+  filename: function(req, file, callback){
+    callback(null, file.fieldname + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, callback) => {
+    checkFileType(file, callback)
+  }
+  } ).single('uploadImage');
+
+function checkFileType(file, callback){
+  const fileTypes = /jpg/;
+  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+  if(extname){
+    return callback(null,true);
+  } 
+  else {
+    callback('Error: Images Only!');
+  }
+}
+
 const config = {
   lang: 'tha+eng', // 'eng'
   oem: 0, // tesseract --help-oem
@@ -28,18 +49,27 @@ const config7 = {
   // cmd: 'tesseract ./targetPic.jpg stdout -l tha --oem 0 --psm 7'
 }
 
-const picTop = 'smallPictureBeefTop.jpg' // have to dynamic
-const picTessco = 'smallPictureInternalOrganTesco.jpg'
+// croper.read('uploadImage.jpg', (err, image) => {
+//   if(err){
+//       console.log("resize fail")
+//   }
+//   else{
+//       image.resize(709, 608)
+//       .quality(80)
+//       .write('uploadImage1.jpg')
+//   }
+// })
 
-var formatTop = [
-  {id: 1, name: '', ex: '', weight: ''}
-];
-
-var formatTessco = [
-  {id: 1, name: '', ex: '', weight: ''}
-];
-
-
+app.post('/uploadPic', (req, res) => {
+  upload(req, res, (err) => {
+    if(err){
+      console.log('err')
+    }
+    else{
+      console.log(req.file);
+    }
+  })
+});
 
 app.get('/topProcessFormat', async (req, res) => {
   formatTop[0].name = await topNameReader();
@@ -53,31 +83,21 @@ app.get('/tesscoProcessFormat', async (req, res) =>{
   formatTessco[0].ex = await tesscoExpiredDateReader();
   formatTessco[0].weight = await tesscoNetWeightReader();
   res.json(formatTessco);
-  // res.end("tessco process")
 })
-
-app.get('/getFormatTop', (req, res) => {
-  console.log('format : ', formatTop)
-  res.json(formatTop);
-});
-
-app.get('/getFormatTessco', (req, res) => {
-  console.log('format : ', formatTessco)
-  res.json(formatTessco);
-});
 
 
 function topNameReader(){
   return new Promise((resolve, reject) => {
-    croper.read(picTop, function(err, image){
+
+    croper.read(pic, function(err, image){
       if(err){
         console.log("error")
       }
       else{
-        image.crop(0,15,750,100).quality(80).write('namePicTop.jpg')
+        image.crop(0,15,750,100).quality(80).write('topSubPic/namePicTop.jpg')
       }
     })
-    ocr.recognize('./namePicTop.jpg', config7)
+    ocr.recognize('./topSubPic/namePicTop.jpg', config7)
     .then(text => {
       resolve(text)
     })
@@ -90,15 +110,15 @@ function topNameReader(){
 
 function topExpiredDateReader(){
   return new Promise((resolve, reject) => {
-    croper.read(picTop, function(err, image){
+    croper.read(pic, function(err, image){
       if(err){ 
         console.log("error") 
       }
       else{
-          image.crop(350,218,420,80).quality(80).write('expiredDatePicTop.jpg')
+          image.crop(350,218,420,80).quality(80).write('topSubPic/expiredDatePicTop.jpg')
         }
       })
-      ocr.recognize('./expiredDatePicTop.jpg', config)
+      ocr.recognize('./topSubPic/expiredDatePicTop.jpg', config)
       .then(text => {
         resolve(text)
       })
@@ -110,15 +130,15 @@ function topExpiredDateReader(){
 
 function topNetWeightReader(){
   return new Promise((resolve, reject) => {
-    croper.read(picTop, function(err, image){
+    croper.read(pic, function(err, image){
       if(err){
         console.log("error")
       }
       else{
-        image.crop(0,480,760,100).quality(80).write('netWeightPicTop.jpg')
+        image.crop(0,480,760,100).quality(80).write('topSubPic/netWeightPicTop.jpg')
       }
     })
-    ocr.recognize('./netWeightPicTop.jpg', config)
+    ocr.recognize('./topSubPic/netWeightPicTop.jpg', config)
     .then(text => {
       resolve(text)
     })
@@ -130,15 +150,15 @@ function topNetWeightReader(){
 
 function tesscoNameReader(){
   return new Promise((resolve, reject) => {
-    croper.read(picTessco, function(err, image){
+    croper.read(pic, function(err, image){
       if(err){
         console.log("error")
       }
       else{
-        image.crop(0,7,290,90).quality(80).write('namePicTessco.jpg')
+        image.crop(0,7,290,90).quality(80).write('tesscoSubPic/namePicTessco.jpg')
       }
     })
-    ocr.recognize('./namePicTessco.jpg', config7)
+    ocr.recognize('./tesscoSubPic/namePicTessco.jpg', config7)
     .then(text => {
       resolve(text)
     })
@@ -150,15 +170,15 @@ function tesscoNameReader(){
 
 function tesscoExpiredDateReader(){
     return new Promise((resolve, reject) => {
-      croper.read(picTessco, function(err, image){
+      croper.read(pic, function(err, image){
         if(err){
           console.log("error")
         }
         else{
-          image.crop(300,170,180,50).quality(80).write('expiredDatePicTessco.jpg')
+          image.crop(300,170,180,50).quality(80).write('tesscoSubPic/expiredDatePicTessco.jpg')
         }
       })
-      ocr.recognize('./expiredDatePicTessco.jpg', config)
+      ocr.recognize('./tesscoSubPic/expiredDatePicTessco.jpg', config)
       .then(text => {
         resolve(text)
       })
@@ -170,15 +190,15 @@ function tesscoExpiredDateReader(){
 
 function tesscoNetWeightReader(){
   return new Promise((resolve, reject) => {
-    croper.read(picTessco, function(err, image){
+    croper.read(pic, function(err, image){
       if(err){
         console.log("error")
       }
       else{
-        image.crop(0,210,480,100).quality(80).write('netWeightPicTessco.jpg')
+        image.crop(0,210,480,100).quality(80).write('tesscoSubPic/netWeightPicTessco.jpg')
       }
     })
-    ocr.recognize('./netWeightPicTessco.jpg', config)
+    ocr.recognize('./tesscoSubPic/netWeightPicTessco.jpg', config)
     .then(text => {
       resolve(text)
     })
@@ -186,56 +206,8 @@ function tesscoNetWeightReader(){
       reject(err)
     })
   });
-  
 }
-// read data from json file
-app.get('/getUsers', function (req, res) {
-  fs.readFile( __dirname + "/" + "user.json", "utf8", function (err, data) {
-    console.log(data);
-    res.end(data);
-  });
-});
 
-// get user form ID in json file
-app.get('/getUsers/:id', function (req, res) {
-  fs.readFile( __dirname + "/" + "user.json", "utf8", function (err, data){
-    var users = JSON.parse(data);
-    var user = users["user" + req.params.id]
-    console.log(user);
-    res.end(JSON.stringify(user));
-  });
-});
-
-// app.post('/file_upload', upload.single("file"), function (req, res) {
-//   var file = __dirname + "/" + req.file.originalname;
-//   fs.readFile( req.file.path, function (err, data) {
-//        fs.writeFile(file, data, function (err) {
-//         if( err ){
-//              console.error( err );
-//              response = {
-//                   message: 'Sorry, file couldn\'t be uploaded.',
-//                   filename: req.file.originalname
-//              };
-//         }else{
-//               response = {
-//                   message: 'File uploaded successfully',
-//                   filename: req.file.originalname
-//              };
-//          }
-//          res.end( JSON.stringify( response ) );
-//       });
-//   });
-// })
-
-// post user 3
-app.post('/addUser', function (req, res) {
-  fs.readFile( __dirname + "/" + "user.json", "utf8", function (err, data) {
-    data = JSON.parse(data); //cast data to JSON object
-    data["user3"] = user["user3"];
-    console.log(data);
-    res.end(JSON.stringify(data))
-  })
-})
 
 const PORT = 8081
 var server = app.listen(PORT, function() {

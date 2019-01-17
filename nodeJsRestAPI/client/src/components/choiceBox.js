@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
 import '../cssFile/choiceBox.css';
-import Spinner from 'react-spinner-material';
 
 // virable of options
 const options = [
@@ -48,14 +47,9 @@ const options = [
         <div>
 
           <div>{this.state.errorPromt}</div>
-        
             <Select className="select" value={selectedOption} onChange={this.handleChange} options={options}/>
             <button onClick = {this.handleButton} className = "selectionButton"> PROCESS </button>
-            {/* <div className = "spinner">
-              <Spinner size={1} spinnerColor={"#888"} spinnerWidth={0} visible={true}/>
-            </div> */}
-           
-
+          
           <h2>good</h2>
           <ul>
             {this.state.goodTop.map(goodTop => 

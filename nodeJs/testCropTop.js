@@ -1,6 +1,19 @@
 var jimp = require('jimp');
 
-jimp.read('./picAndOcr/smallPictureBeefTop.jpg', function(err, image){
+
+jimp.read('./picAndOcr/smallPictureBeefTop.jpg', (err, image) => {
+    if(err){
+        console.log("resize fail")
+    }
+    else{
+        image.resize(709, 608)
+        .quality(80)
+        .write('resize.jpg')
+    }
+
+})
+
+jimp.read('resize.jpg', function(err, image){
     if(err){
         console.log("error");
     }
